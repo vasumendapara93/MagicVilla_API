@@ -2,17 +2,18 @@
 using MagicVilla_Web.Models;
 using MagicVilla_Web.Models.Dto;
 using MagicVilla_Web.Services.IServices;
+using System;
 
 namespace MagicVilla_Web.Services
 {
     public class VillaService : BaseService, IVillaService
     {
         private readonly IHttpClientFactory _clientFactory;
-        private string VillaUrl;
+        private string villaUrl;
         public VillaService(IHttpClientFactory clientFactory,IConfiguration configuration) : base(clientFactory)
         {
             _clientFactory = clientFactory;
-            VillaUrl = configuration.GetValue<string>("ServiceUrl:VillaAPI");
+            villaUrl = configuration.GetValue<string>("ServiceUrls:VillaAPI");
 
         }
 
@@ -22,7 +23,7 @@ namespace MagicVilla_Web.Services
             {
                 ApiType = SD.ApiType.POST,
                 Data = dto,
-                Url = VillaUrl + "/api/villaAPI"
+                Url = villaUrl + "/api/villaAPI"
             });
         }
 
@@ -31,16 +32,17 @@ namespace MagicVilla_Web.Services
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.DELETE,
-                Url = VillaUrl + "/api/villaAPI/"+id
+                Url = villaUrl + "/api/villaAPI/"+id
             });
         }
 
         public Task<T> GetAllAsync<T>()
-        {
+		{
+            Console.WriteLine(villaUrl + "/api/villaAPI");
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.GET,
-                Url = VillaUrl + "/api/villaAPI"
+                Url = villaUrl + "/api/villaAPI"
             });
         }
 
@@ -49,7 +51,7 @@ namespace MagicVilla_Web.Services
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.GET,
-                Url = VillaUrl + "/api/villaAPI/"+id
+                Url = villaUrl + "/api/villaAPI/"+id
             });
         }
 
@@ -59,7 +61,7 @@ namespace MagicVilla_Web.Services
             {
                 ApiType = SD.ApiType.PUT,
                 Data = dto,
-                Url = VillaUrl + "/api/villaAPI/"+dto.Id
+                Url = villaUrl + "/api/villaAPI/"+dto.Id
             });
         }
     }
