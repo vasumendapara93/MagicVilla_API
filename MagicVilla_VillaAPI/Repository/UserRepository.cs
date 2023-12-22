@@ -2,7 +2,6 @@
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Models.Dto;
 using MagicVilla_VillaAPI.Repository.IRepository;
-using MagicVilla_VillaAPI.Repository.IRepostiory;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -37,7 +36,10 @@ namespace MagicVilla_VillaAPI.Repository
             && u.Password == loginRequestDTO.Password);
             if (user == null)
             {
-                return null;
+                return new LoginResponseDTO(){
+                    Token = "",
+                    User = null
+                };
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();
